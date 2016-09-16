@@ -1,0 +1,89 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>D3 Tutorial</title>
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+
+	<style>
+	.bar {
+	  fill: steelblue;
+	}
+	.bar:hover {
+	  fill: brown;
+	}
+	.axis--x path {
+	  display: none;
+	}
+	</style>
+</head>
+<body>
+	<div id="barchart"></div>
+
+	<script>
+		// append a svg element and define margins
+		var svg = d3.select("#barchart")
+			.append("svg")
+			.attr("width", 960)
+			.attr("height", 500),
+		    margin = {top: 20, right: 20, bottom: 30, left: 40},
+		    width = +svg.attr("width") - margin.left - margin.right,
+		    height = +svg.attr("height") - margin.top - margin.bottom;
+
+		// Constructs a new band scale (x) and a new continuous scale (y)
+		var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+		    y = d3.scaleLinear().rangeRound([height, 0]);
+
+		// append g element
+		var transStr = "translate(" + margin.left + "," + margin.top + ")";
+		var g = svg.append("g")
+		    .attr("transform", transStr);
+
+		d3.tsv("./data/d3-tutorial-tsv-data.tsv", function(d) {
+		  d.frequency = +d.frequency;
+		  return d;
+		}, barchartCallback);
+
+		function barchartCallback(error, data) {
+		  if (error) throw error;
+
+		  // Given a value from the domain
+		  // returns the corresponding value from the range.
+		  x.domain(data.map(function(d) { 
+		  	return d.letter; 
+		  }));
+		  y.domain([0, d3.max(data, function(d) { 
+		  	return d.frequency; 
+		  })]);
+
+		  // x axis
+		  g.append("g")
+		      .attr("class", "axis axis--x")
+		      .attr("transform", "translate(0," + height + ")")
+		      .call(d3.axisBottom(x));
+		  
+		  // y axis
+		  g.append("g")
+		      .attr("class", "axis axis--y")
+		      .call(d3.axisLeft(y).ticks(10, "%"))
+		    .append("text")
+		      .attr("transform", "rotate(-90)")
+		      .attr("y", 6)
+		      .attr("dy", "0.71em")
+		      .attr("text-anchor", "end")
+		      .text("Frequency");
+
+		  // bind data and define rect element generating rule
+		  g.selectAll(".bar")
+		    .data(data)
+		    .enter().append("rect")
+		      .attr("class", "bar")
+		      .attr("x", function(d) { return x(d.letter); })
+		      .attr("y", function(d) { return y(d.frequency); })
+		      .attr("width", x.bandwidth())
+		      .attr("height", function(d) { 
+		      	return height - y(d.frequency); 
+		      });
+		}
+	</script>
+</body>
+</html>
