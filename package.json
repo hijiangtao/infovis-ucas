@@ -1,0 +1,26 @@
+{
+  "name": "infovis-ucas",
+  "version": "0.0.1",
+  "description": "Programming Assignments for Information Visualization Course on University of Chinese Academy of Sciences",
+  "main": "index.js",
+  "scripts": {
+    "test": "",
+    "start": "node_modules/.bin/http-server ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ISCAS-VIS/infovis-ucas.git"
+  },
+  "keywords": [
+    "vis"
+  ],
+  "author": "Joe",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ISCAS-VIS/infovis-ucas/issues"
+  },
+  "homepage": "https://github.com/ISCAS-VIS/infovis-ucas#readme",
+  "dependencies": {
+    "http-server": "^0.9.0"
+  }
+}

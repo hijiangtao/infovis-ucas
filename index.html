@@ -1,11 +1,20 @@
 <HTML>
    <HEAD>
-      <TITLE></TITLE>
+      <TITLE>Visualization Assignments Website</TITLE>
+      <style>
+         a {
+            text-decoration: underline;
+            cursor: pointer;
+            color: black;
+         }
+      </style>
    </HEAD>
    <BODY>
-      <h1>Visualization homepage</h1>
+      <h1>Visualization Assignments Website</h1>
       <P>Programming Assignments for Information Visualization Course on University of Chinese  Academy of Sciences.</p>
-      <b>To be completed...</b>
+      <ul>
+         <li><a href="./views/TA/d3-tutorial-bar-chart.html">D3 Tutorial Demo Chart</a> | <a onclick="change()">Source Code</a></li>
+      </ul>
       <hr/>
       <h2>Course Basics</h2>
       <p>Course: Information Visualization
@@ -14,5 +23,14 @@
       <br>Location: Building #1-123
       <br>TA: Tao Jiang (hijiangtao#gmail.com)
       <br>Attention: replace # to @ in the email address.</p>
+
+      <script>
+         function change() {
+            let currenturl =  document.location.href,
+                newurl = `view-source:${currenturl.substr(0, currenturl.lastIndexOf('/'))}/views/TA/d3-tutorial-bar-chart.html`;
+
+            window.open(newurl);
+         }
+      </script>
    </BODY>
 </HTML>
