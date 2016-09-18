@@ -4,7 +4,7 @@ Repository Programming Assignments for Information Visualization Course on Unive
 
 ## Introduction
 
-In order to utilize GitHub Pages services, this is almost a static website repository for infovis-ucas course assigments, you can access pages by url with `https://iscas-vis.github.io/infovis-ucas/views/CUSTOMIZE_URL`, among which **CUSTOMIZE_URL** should be an existing file path in `views` folder, such as `TA/d3-tutorial-bar-chart.html`. However, you can also set up a http server to host this repo locally if some content in your page needs to connect with local server, but it doesn't work in Github Pages. A light http server is recommended and will be introduced in **[Install](#Install)** chapter.
+In order to utilize GitHub Pages services, this is almost a static website repository for infovis-ucas course assigments, you can access pages by url with `https://iscas-vis.github.io/infovis-ucas/views/CUSTOMIZE_URL`, among which **CUSTOMIZE_URL** should be an existing file path in `views` folder, such as `TA/d3-tutorial-bar-chart.html`. However, you can also set up a http server to host this repo locally if some content in your page needs to connect with local server, but it doesn't work in Github Pages. A light http server is recommended and will be introduced in **[Install](#install)** chapter.
 
 ## Before Install
 
@@ -29,7 +29,7 @@ You can get the complete guidance from [here](https://nodejs.org/en/download/pac
 
 ## Install
 
-[Fork](https://github.com/ISCAS-VIS/infovis-ucas#fork-destination-box) your own copy of ISCAS-VIS/infovis-ucas to your account, and git clone it from github (suppose your name is *ISCAS-VIS*):
+Fork your own copy of **ISCAS-VIS/infovis-ucas** to your account, and git clone it from github (suppose your name is *ISCAS-VIS*):
 
 ```
 git clone git@github.com:ISCAS-VIS/infovis-ucas.git
@@ -64,7 +64,7 @@ After include your own codes into the repository, you can open a pull request to
 ## Notifications
 
 * Public libraries are stored in `/public` folder, such as jQuery, Bootstrap and Vue, you can directly include them in your html file or use their offical CDN paths, in order to control the total repository size.
-* Please follow Github Pages Basics](https://help.github.com/categories/github-pages-basics/) to organize your codes, in order to make it run nicely via github pages service.
+* Please follow [Github Pages Basics](https://help.github.com/categories/github-pages-basics/) to organize your codes, in order to make it run nicely via github pages service.
 
 ## License
 
