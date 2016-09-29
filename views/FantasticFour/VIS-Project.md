@@ -10,3 +10,4 @@ Check out the [slide](http://ddl.escience.cn/f/BcUK)
 
 ## Links
 1. Yummly: Personalized Recipe Recommendations and Search. http://www.yummly.com/
+2. Allrecipes | Food, friends, and recipe inspiration. http://allrecipes.com/
