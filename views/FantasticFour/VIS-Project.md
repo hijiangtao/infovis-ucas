@@ -9,3 +9,4 @@ Check out the [slide](http://ddl.escience.cn/f/BcUK)
 ## Final Presentation
 
 ## Links
+1. Yummly: Personalized Recipe Recommendations and Search. http://www.yummly.com/
