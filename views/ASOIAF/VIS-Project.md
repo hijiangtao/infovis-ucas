@@ -22,12 +22,12 @@ The target user of our visualization can be
   3. They might find out some ignored details through the visualizations.
 
 * HBO Films
-1. The publicity department of HBO Films can use the visualization to promote the new season.
-2. The HBO Films can also use this visualization to stimulate discussion to keep the show a hot topic, which might contributes to the sale of the spin-off. 
+  1. The publicity department of HBO Films can use the visualization to promote the new season.
+  2. The HBO Films can also use this visualization to stimulate discussion to keep the show a hot topic, which might contributes to the sale of the spin-off. 
 
 * New Media and We Media
-1. New Media and We Media can use this to promote the books and show, which can earn them money from the press and publisher.
-2. They can also attract more followers by the visualization, which means their commercial value increases.
+  1. New Media and We Media can use this to promote the books and show, which can earn them money from the press and publisher.
+  2. They can also attract more followers by the visualization, which means their commercial value increases.
 
 ### Novelty
 
@@ -40,21 +40,22 @@ The visualization of an extremely popular story is an interesting job. Without a
 ### Team and assignment
 
 Please introduce your team members and task assignment (optionally, the project schedule)
+
 * Chu Yiyao
-1. Track the statistical data of places appeared in the novel.
-2. Data mining and analysis.
-3. Edit mediawiki and github of the project.
+  1. Track the statistical data of places appeared in the novel.
+  2. Data mining and analysis.
+  3. Edit mediawiki and github of the project.
 
 * Lin Yijun
-1. Find the source of data, txt form of the novel by each POV chapter.
-2. Extract data from the text.
+  1. Find the source of data, txt form of the novel by each POV chapter.
+  2. Extract data from the text.
 
 * Gao Shan
-1. Design database and construct server.
-2. Track the statistical data of all characters, including the nicknames.
+  1. Design database and construct server.
+  2. Track the statistical data of all characters, including the nicknames.
 
 * Hao Yu
-1. Use d3.js to visualize the outcome of data exploration.
+  1. Use d3.js to visualize the outcome of data exploration.
 
 
 
