@@ -6,6 +6,8 @@ PPT of the introduction: [Group_A_ASOIAF_VIS_Project_Checkpoint_I.pptx](http://d
 Here are some details of our project:
 ## Visualization Data and Task Scenario (Checkpoint I)
 
+We will firstly try to obtain the frequency of the emergence of every characters and places in each [POV](https://en.wikipedia.org/wiki/Narration) chapters by some basic text processing techniques. The dataset we hope to acquire will contain a n-by-p matrix X with n characters and places and p chapters collected from the novel. Each element contains either 0 or m indicating if the frequency of character's or place's appearance in the POV chapter.
+
 ## Visualization Design (Checkpoint II)
 
 ## Poster Session (Mid-Term)
