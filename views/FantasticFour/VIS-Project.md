@@ -1,4 +1,4 @@
-# Group XXX "Your Team Name" VIS Project
+# Group B "FantasticFour" VIS Project
 
 ## Visualization Data and Task Scenario (Checkpoint I)
 
