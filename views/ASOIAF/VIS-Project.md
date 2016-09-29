@@ -17,9 +17,9 @@ We will firstly try to obtain the frequency of the emergence of every characters
 The target user of our visualization can be
 
 * The fans of the ASOIAF or GOT
-1. The fans can enjoy new and vivid perspectives of their beloved stories. 
-2. They can also recall their vague memory about the relations of the different scenarios and characters directly from the visualizations.
-3. They might find out some ignored details through the visualizations.
+  1. The fans can enjoy new and vivid perspectives of their beloved stories. 
+  2. They can also recall their vague memory about the relations of the different scenarios and characters directly from the visualizations.
+  3. They might find out some ignored details through the visualizations.
 
 * HBO Films
 1. The publicity department of HBO Films can use the visualization to promote the new season.
