@@ -12,7 +12,7 @@
 
 ## TIPS
 
-You should create a fold called `Your Group Name` in the `views` directory, and put your `VIS-Project.md` file in this folder. When you complete your writing, you can save it and link it in [VIS PROJECT](http://211.147.15.14/UCAS_16_Fall/index.php/VIS_Project)] like this:
+You should create a fold called `Your Group Name` in the `views` directory, and put your `VIS-Project.md` file in this folder. When you complete your writing, you can save it and link it in [VIS PROJECT](http://211.147.15.14/UCAS_16_Fall/index.php/VIS_Project) like this:
 
 ```
 * [https://github.com/ISCAS-VIS/infovis-ucas/blob/master/views/YourGroupName/VIS-Project.md Group XXX - "Your Team Name" VIS Project]
