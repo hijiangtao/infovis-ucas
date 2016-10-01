@@ -20,6 +20,7 @@ Our project can be used to estimate the price of a house when giving the propert
 condition of second-hand house in Beijing. So our user can be: 
 
 * The target user : 
+
 1. People who want to sell their houses: 
 In fact, Most of the people don't know how much their houses worth clearly. They know the housing price depends on many factors and
 have a general concept which factor is promoting. However there are too many determinants, so that they couldn't figure out the 
