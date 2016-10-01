@@ -20,7 +20,6 @@ Our project can be used to estimate the price of a house when giving the propert
 condition of second-hand house in Beijing. So our user can be: 
 
 * The target user : 
-
 1. People who want to sell their houses: 
 In fact, Most of the people don't know how much their houses worth clearly. They know the housing price depends on many factors and
 have a general concept which factor is promoting. However there are too many determinants, so that they couldn't figure out the 
@@ -35,9 +34,9 @@ be considered to find a suitable house. By means of visualization, we can help t
 more efficiently. 
  
 * Tasks: 
- 1. Collecting the price data and mining surrounding properties of houses and show their details in the map. 
- 2. Analyzing and displaying the relevant factors of housing prices by means of visualization .
- 3. According to the demand, assessing and forecasting the housing price through machine learning and data mining. 
+1. Collecting the price data and mining surrounding properties of houses and show their details in the map. 
+2. Analyzing and displaying the relevant factors of housing prices by means of visualization .
+3. According to the demand, assessing and forecasting the housing price through machine learning and data mining. 
  
 ### Novelty
 
