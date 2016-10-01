@@ -20,18 +20,18 @@ Our project can be used to estimate the price of a house when giving the propert
 condition of second-hand house in Beijing. So our user can be: 
 
 * The target user : 
- 1. People who want to sell their houses: 
- In fact, Most of the people don't know how much their houses worth clearly. They know the housing price depends on many factors and
- have a general concept which factor is promoting. However there are too many determinants, so that they couldn't figure out the 
- relationships with housing prices itself. If we can visualize the potential links between these factors and the housing prices, they 
- will be able to assess the worth of their houses or forecast the housing price accurately. When they wanna sell their houses, they 
- don't need to rely on real estate agent. 
+1. People who want to sell their houses: 
+In fact, Most of the people don't know how much their houses worth clearly. They know the housing price depends on many factors and
+have a general concept which factor is promoting. However there are too many determinants, so that they couldn't figure out the 
+relationships with housing prices itself. If we can visualize the potential links between these factors and the housing prices, they 
+will be able to assess the worth of their houses or forecast the housing price accurately. When they wanna sell their houses, they 
+don't need to rely on real estate agent. 
  
- 2. People who want to buy houses:  
- Every one knows that housing prices are getting higher and higher, So the price information is essential for those who want to buy 
- houses especially for those who haven't had one house. There are too many factors and too much information about housing prices to
- be considered to find a suitable house. By means of visualization, we can help them find the satisfying houses and estimate the price
- more efficiently. 
+2. People who want to buy houses:  
+Every one knows that housing prices are getting higher and higher, So the price information is essential for those who want to buy 
+houses especially for those who haven't had one house. There are too many factors and too much information about housing prices to
+be considered to find a suitable house. By means of visualization, we can help them find the satisfying houses and estimate the price
+more efficiently. 
  
 * Tasks: 
  1. Collecting the price data and mining surrounding properties of houses and show their details in the map. 
