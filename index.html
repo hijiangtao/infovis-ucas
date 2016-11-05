@@ -13,7 +13,7 @@
       <h1>Visualization Assignments Website</h1>
       <P>Programming Assignments for Information Visualization Course on University of Chinese  Academy of Sciences.</p>
       <ul>
-         <li><a href="./views/TA/d3-tutorial-bar-chart.html">D3 Tutorial Demo Chart</a> | <a onclick="change()">Source Code</a></li>
+         <li><a href="./2016/TA/d3-tutorial-bar-chart.html">D3 Tutorial Demo Chart</a> | <a onclick="change()">Source Code</a></li>
       </ul>
       <hr/>
       <h2>Course Basics</h2>
@@ -25,9 +25,11 @@
       <br>Attention: replace # to @ in the email address.</p>
 
       <script>
+         window.location.href='./2016/';
+
          function change() {
             let currenturl =  document.location.href,
-                newurl = `view-source:${currenturl.substr(0, currenturl.lastIndexOf('/'))}/views/TA/d3-tutorial-bar-chart.html`;
+                newurl = `view-source:${currenturl.substr(0, currenturl.lastIndexOf('/'))}/2016/TA/d3-tutorial-bar-chart.html`;
 
             window.open(newurl);
          }
