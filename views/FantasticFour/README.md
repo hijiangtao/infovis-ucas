@@ -1,24 +1,39 @@
-# 菜谱可视化
+# Group B "FantasticFour" VIS Project
 
-<b>s菜谱的数据已经准备好，在recipes文件夹下。关于数据格式的说明，参见“数据类型的说明.xls”文件</b>
+## Visualization Data and Task Scenario (Checkpoint I)
+Project Name: <b>Analyzing taste preference by visualizing recipes in different countries</b>
 
-再明确一下各位小伙伴的分工：
-* 我：数据获取，MDS后的显示页面
-* 卢旺：如何度量两个菜谱的相似度，MDS对数据进行降维
-* 蔡晨沁：country's view
-* 白梅：global view
+### Data:
 
-前两个页面的原型我已经建立好：大家访问 https://tonypod.github.io/recipeviz/ 这个链接就可以看到效果，这只是个原型，给大家作为参考，目前数据还没有完全下载下来，我尽快先放上小规模的示例数据供大家调用。在此期间大家先熟悉一下用到的D3.js和HTML+CSS+JS
+We use Ingredients, nutrition, cooking method of recipes of different countries as our data. The data can be acquired on websites Yummly.com and Allrecipes.com using a web crawler. (Yummly.com also provides API, but not free for commercial use and it only offers limited access for academic use) Using regular expression or other HTML analysis method, we can use a csv file or database to store the data.
 
-另外，大家可以fork这个仓库，有什么改动pull request统一提交到这里吧。有任何问题微信即可 =)
+### User and task:
+* Users: everybody (especially for people who are curious about different taste preference in different countries, and those who want to gain some insights on how to eat healthy)
 
-PPT是英文的，为便于理解，用中文描述一下前两个view是这样的，仅供参考哈：
+* Tasks:
+  * Select a certain ingredient, see which country use this ingredient most. (show the ranking of number of appearance in different countries' recipes)
+  * Check out which country like salty(sweet, spicy etc) food best
+  * Check out which country like to bake(fry, stew etc) food best
+  * Check out which country like high protein(low protein, high fat, low fat etc) dishes
 
-1. Global view：由于我们的数据只支持15个国家，这15个国家在整张地图上稍微突出显示（区分世界其他国家）。右侧是查询窗口，查询条件有：包含某个ingredients（自动提示输入），限定cooking technique，限制flavor indices的范围（如spiciness在2和5之间），限制course（如soup, breakfast），限制各种营养素的含量（如热量、蛋白质含量）等等。<b>课上老师说用圆圈大小表示符合要求的菜谱数量看起来不太明显，因此还是用不同的颜色来表示比较好</b>
-（关于某些搜索条件的定义：Low fat: 脂肪低于10g；low carb：碳水化合物低于30g；low calories：热量低于400千卡；low sodium：钠低于500mg；high fiber：膳食纤维高于6g；lower sugar：糖低于10g     除了这些也可以定义一些其他的如反式脂肪酸低于多少，胆固醇低于多少）
+### Novelty:
+* Novel data source for visualization and analysis
+* Using web crawler to grab data and select data that we need
+* Proper visualization of ingredients, nutrition etc, users can see taste preference of different countries clearly and draw some conclusions
 
-2. Country's view：在Global view中点击15个国家的其中一个跳转至Country's view，通过传入的GET请求的参数得知是哪一个国家，以一定的时间间隔（比如200毫秒）出现反映这个国家统计信息的bubble，每个bubble代表一个统计信息，bubble的大小为这个国家符合该属性的菜谱个数，bubble的颜色代表不同的属性（如基本信息，营养信息，ingredient信息）
+### Assignment:
+* 何晨: Acquire data from Yummly.com and Allrecipes.com. Presentation
+* 卢旺: Design how to better visualize the data, mathematical method for dimension reduction etc
+* 蔡晨沁: Visualize data via D3.js
+* 白梅: Design the interaction and color design of the webpage
 
-3. Recipe similarity view：先设计一个距离度量来计算菜谱间的相似度（对于ingredients的相似度可以采用Jaccard Similarity），然后通过MDS进行降维，降维后的数据以散点图的形式显示在页面上
+Check out the [slide](http://ddl.escience.cn/f/BcUK)
+## Visualization Design (Checkpoint II)
 
-终于节课了，开心 ↖(^ω^)↗
+## Poster Session (Mid-Term)
+
+## Final Presentation
+
+## Links
+1. Yummly: Personalized Recipe Recommendations and Search. http://www.yummly.com/
+2. Allrecipes | Food, friends, and recipe inspiration. http://allrecipes.com/
