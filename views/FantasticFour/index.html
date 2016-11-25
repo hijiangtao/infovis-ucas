@@ -401,7 +401,7 @@ $( function() {
 			}
 			if (availableTags == null) {
 				$.get("data/all_ingredients.txt", function(data) {
-					availableTags = data.split("\n").sort();
+					availableTags = data.split("\r\n").sort();
 					response( $.ui.autocomplete.filter(
 					availableTags, extractLast( request.term ) ) );
 				});
