@@ -2,7 +2,7 @@
 
 ### Instructor
 
-Lei Shi, [http://lcs.ios.ac.cn/~shil]
+Lei Shi, <http://lcs.ios.ac.cn/~shil>
 
 ### MEMBERS
 
