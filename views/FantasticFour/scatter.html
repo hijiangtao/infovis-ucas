@@ -1,0 +1,483 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Recipe Similarity View</title>
+  </head>
+  <style>
+  rect {
+  fill: transparent;
+  shape-rendering: crispEdges;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.1);
+  shape-rendering: crispEdges;
+}
+
+.axisLine {
+  fill: none;
+  shape-rendering: crispEdges;
+  stroke: rgba(0, 0, 0, 0.5);
+  stroke-width: 2px;
+}
+
+.dot {
+  fill-opacity: .5;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+ul{width:780px;list-style:none;}
+ul li{width:180px;float:left;margin-right:10px;line-height:20px;}
+
+#div_courses {
+	width: 780;
+	margin-left: 40;
+	margin-top: 10;
+}
+
+  </style>
+  <body>
+	<div id="div_courses">
+		<fieldset>
+			<legend>Select a Course </legend>
+			<ul>
+				<li>
+					<label for="radio-1">Afternoon Tea</label>
+					<input type="radio" name="radio-1" value="0" id="radio-1">
+				</li>
+				<li>
+					<label for="radio-2">Appetizers</label>
+					<input type="radio" name="radio-1" value="1" id="radio-2">
+				</li>
+				<li>
+					<label for="radio-3">Breads</label>
+					<input type="radio" name="radio-1" value="2" id="radio-3">
+				</li>
+				<li>
+					<label for="radio-4">Breakfast & Brunch</label>
+					<input type="radio" name="radio-1" value="3" id="radio-4">
+				</li>
+				<li>
+					<label for="radio-5">Beverages</label>
+					<input type="radio" name="radio-1" value="4" id="radio-5">
+				</li>
+				<li>
+					<label for="radio-6">Cocktails</label>
+					<input type="radio" name="radio-1" value="5" id="radio-6">
+				</li>
+				<li>
+					<label for="radio-7">Condiments & Sauces</label>
+					<input type="radio" name="radio-1" value="6" id="radio-7">
+				</li>
+				<li>
+					<label for="radio-8">Desserts</label>
+					<input type="radio" name="radio-1" value="7" id="radio-8">
+				</li>
+				<li>
+					<label for="radio-9">Lunch</label>
+					<input type="radio" name="radio-1" value="8" id="radio-9">
+				</li>
+				<li>
+					<label for="radio-10">Main Dishes</label>
+					<input type="radio" checked=true name="radio-1" value="9" id="radio-10">
+				</li>
+				<li>
+					<label for="radio-11">Soups</label>
+					<input type="radio" name="radio-1" value="10" id="radio-11">
+				</li>
+				<li>
+					<label for="radio-12">Salads</label>
+					<input type="radio" name="radio-1" value="11" id="radio-12">
+				</li>
+				<li>
+					<label for="radio-13">Snacks</label>
+					<input type="radio" name="radio-1" value="12" id="radio-13">
+				</li>
+				<li>
+					<label for="radio-14">Side Dishes</label>
+					<input type="radio" name="radio-1" value="13" id="radio-14">
+				</li>
+			</ul>
+		 </fieldset>
+	</div>
+    <div id="scatter"></div>
+	<link rel="stylesheet" href="css/jquery-ui.css">
+	<script src="js/jquery-1.12.4.js"></script>
+	<script src="js/jquery-ui.js"></script>
+    <script src="js/d3.min.js" charset="utf-8"></script>
+    <script src="js/d3.tip.v0.6.3.js"></script>
+    <!--<script src="js/scatter.js" charset="utf-8"></script>-->
+
+	<script>
+		var course = "Main Dishes";
+		$(function(){
+			$(":radio").click(function(){
+				course = courses[parseInt($(this).val())];
+				showData();
+			});
+		});
+
+		var courses = ["Afternoon Tea", "Appetizers", "Breads", "Breakfast and Brunch", "Beverages", "Cocktails", "Condiments and Sauces", 
+			"Desserts", "Lunch", "Main Dishes", "Soups", "Salads", "Snacks", "Side Dishes"];
+
+		var countries = ["american", "brazilian", "chinese", "cuban", "english", "ethiopian", "filipino", "french", "german", "greek",
+            "hungarian", "indian", "irish", "italian", "jamaican", "japanese", "korean", "mexican", "moroccan", "peruvian", "portuguese",
+            "russian", "spanish", "swedish", "thai", "turkish", "vietnamese"];
+
+		switches = {};
+		for (var i=0; i<countries.length; ++i) {
+			switches[countries[i]] = 0;
+		}
+		switches["brazilian"] = 1;
+		switches["chinese"] = 1;
+		switches["indian"] = 1;
+		switches["mexican"] = 1;
+
+		function checkbox_onclick() {
+			fun();
+		}
+
+		function fun() {
+			obj = document.getElementsByName("checkbox-country");
+			check_val = [];
+			for(k in obj){
+				if(obj[k].checked)
+					check_val.push(obj[k].value);
+			}
+			alert(check_val);
+		}
+
+// Scatterplot Init
+var margin = { top: 50, right: 300, bottom: 50, left: 80 },
+    outerWidth = 1050,
+    outerHeight = 600,
+    width = outerWidth - margin.left - margin.right,
+    height = outerHeight - margin.top - margin.bottom;
+
+var x = d3.scale.linear()
+	.range([0, width]).nice();
+
+var y = d3.scale.linear()
+	.range([height, 0]).nice();
+
+var xCat = "x",
+	yCat = "y",
+	// rCat = "",
+	colorCat = "cuisine"
+//var colors = d3.scale.category20c();
+var colors = category27();
+
+function category27() {
+	var colors_27 = [
+	  "#1f77b4", "#aec7e8",
+	  "#ff7f0e", "#ffbb78",
+	  "#2ca02c", "#98df8a",
+	  "#d62728", "#ff9896",
+	  "#9467bd", "#c5b0d5",
+	  "#8c564b", "#c49c94",
+	  "#e377c2", "#f7b6d2",
+	  "#7f7f7f", "#c7c7c7",
+	  "#bcbd22", "#dbdb8d",
+	  "#17becf", "#9edae5",
+	  "#393b79", "#637939",
+	  "#8c6d31", "#843c39",
+	  "#393b79", "#636363",
+	  "#d9d9d9"	
+	  ];
+	  return d3.scale.ordinal().range(colors_27);
+}
+
+var svg = d3.select("#scatter")
+	.append("svg")
+	.attr("width", outerWidth)
+	.attr("height", outerHeight)
+	.append("g")
+	.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
+var tip = d3.tip()
+	.attr("class", "d3-tip")
+	.offset([-10, 0])
+	.html(function(d) {
+		return d["name"] + "<br>" + d["cuisine"];
+	});
+
+svg.append("rect")
+	.attr("width", width)
+	.attr("height", height);
+
+	/*var xMax = d3.max(data, function(d) { return d[xCat]; }) * 1.05,
+		xMin = d3.min(data, function(d) { return d[xCat]; }),
+		xMin = xMin > 0 ? 0 : xMin,
+		yMax = d3.max(data, function(d) { return d[yCat]; }) * 1.05,
+		yMin = d3.min(data, function(d) { return d[yCat]; }),
+		yMin = yMin > 0 ? 0 : yMin;
+		*/
+
+		// 坐标轴范围的默认值
+		xMin = -0.6475
+		xMax = 0.7267365
+		yMin = -0.66559
+		yMax =0.6379275
+
+		x.domain([xMin, xMax]);
+		y.domain([yMin, yMax]);
+
+		//console.log(xMin);
+		//console.log(xMax);
+		//console.log(yMin);
+		//console.log(yMax);
+
+	var xAxis = d3.svg.axis()
+		.scale(x)
+		.orient("bottom")
+		.tickSize(-height);
+
+	var yAxis = d3.svg.axis()
+		.scale(y)
+		.orient("left")
+		.tickSize(-width);
+
+	var zoomBeh = d3.behavior.zoom()
+		.x(x)
+		.y(y)
+		.scaleExtent([0, 500])
+		.on("zoom", zoom);
+
+	svg.call(zoomBeh);
+
+	svg.call(tip);
+
+	function zoom() {
+		svg.select(".x.axis").call(xAxis);
+		svg.select(".y.axis").call(yAxis);
+		svg.selectAll(".dot")
+			.attr("transform", transform);
+	}
+
+	function transform(d) {
+		return "translate(" + x(d[xCat]) + "," + y(d[yCat]) + ")";
+	}
+
+	svg.append("g")
+		.classed("x axis", true)
+		.attr("transform", "translate(0," + height + ")")
+		.call(xAxis)
+		.append("text")
+		.classed("label", true)
+		.attr("x", width)
+		.attr("y", margin.bottom - 10)
+		.style("text-anchor", "end")
+		.text(xCat);
+
+  svg.append("g")
+      .classed("y axis", true)
+	  .call(yAxis)
+		.append("text")
+      .classed("label", true)
+      .attr("transform", "rotate(-90)")
+      .attr("y", -margin.left)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text(yCat);
+	  
+  var objects = svg.append("svg")
+      .classed("objects", true)
+      .attr("width", width)
+      .attr("height", height);
+
+	objects.append("svg:line")
+      .classed("axisLine hAxisLine", true)
+      .attr("x1", 0)
+      .attr("y1", 0)
+      .attr("x2", width)
+      .attr("y2", 0)
+      .attr("transform", "translate(0," + height + ")");
+
+	objects.append("svg:line")
+      .classed("axisLine vAxisLine", true)
+      .attr("x1", 0)
+      .attr("y1", 0)
+      .attr("x2", 0)
+      .attr("y2", height);
+
+// 加载MDS后的坐标
+d3.csv("data/coordinates.csv", function(data) {
+	recipes = data;
+	showData();
+});
+
+function change() {
+    xCat = "x";
+    xMax = d3.max(data, function(d) { return d[xCat]; });
+    xMin = d3.min(data, function(d) { return d[xCat]; });
+
+    zoomBeh.x(x.domain([xMin, xMax])).y(y.domain([yMin, yMax]));
+
+    var svg = d3.select("#scatter").transition();
+
+    svg.select(".x.axis").duration(750).call(xAxis).select(".label").text(xCat);
+
+    objects.selectAll(".dot").transition().duration(1000).attr("transform", transform);
+}
+
+function showData() {
+	
+	// 把画布上已经有的点和网格去掉
+	svg.selectAll(".legend").remove();
+	svg.selectAll(".dot").remove();
+
+	data = recipes;
+	data.forEach(function(d) {
+		d.x = +d.x;
+		d.y = +d.y;
+	});
+
+	objects.selectAll(".dot")
+		.data(recipes.filter(function (d) {return d.course == course;}))
+		.enter().append("circle")
+		.classed("dot", true)
+		.attr("r", function (d) { return 6 * Math.sqrt(1 / Math.PI); })
+		.style("opacity", function (d) {return switches[d.cuisine]; })
+		//.attr("r", function (d) { return 6 * Math.sqrt(d[rCat] / Math.PI); })
+		.attr("transform", transform)
+		.style("fill", function(d) { return colors(d[colorCat]); })
+		.on("mouseover", function(d) {
+			if (switches[d.cuisine] == 1) {
+				tip.show(d);  //tip.show函数是要传参数的，怪不得！！！
+			}
+		})
+		.on("mouseout", tip.hide)
+		.on("contextmenu", function (d, i) {
+            d3.event.preventDefault();
+			window.open("http://www.yummly.co/#recipe/" + d.id);
+        });
+
+	// 统计属于不同国家的菜谱数量
+
+  var legend = svg.selectAll(".legend")
+		.data(colors.domain())
+		.enter().append("g")
+		.classed("legend", true)
+		.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("circle")
+      .attr("r", 3.5)
+      .attr("cx", width + 20)
+      .attr("fill", colors);
+
+	legend.append("text")
+		.attr("x", width + 26)
+		.attr("dy", ".35em")
+		.attr("fill", function(d) { return switches[d] == 0 ? "#eee" : "#000";} )
+		.text(function(d) { return d; })
+		.on("mouseout", tip.hide)
+		.on("mousedown", function(d) { 
+				 switches[d] = (1 - switches[d]);
+				 showData();
+			});
+	
+  d3.select("input").on("click", change);
+}
+
+function selectAllCountries() {
+	for (var i=0; i<countries.length; ++i) {
+		switches[countries[i]] = 1;
+	}
+	showData();
+}
+
+function disselectAllCountries() {
+	for (var i=0; i<countries.length; ++i) {
+		switches[countries[i]] = 0;
+	}
+	showData();
+}
+
+function selectOverweightCountries() {
+	for (var i=0; i<countries.length; ++i) {
+		switches[countries[i]] = 0;
+	}
+	switches["american"] = 1;
+	switches["turkish"] = 1;
+	switches["mexican"] = 1;
+	switches["english"] = 1;
+	switches["spanish"] = 1;
+	showData();
+}
+
+function selectLongLifeCountries() {
+	for (var i=0; i<countries.length; ++i) {
+		switches[countries[i]] = 0;
+	}
+	switches["japanese"] = 1;
+	switches["spanish"] = 1;
+	switches["italian"] = 1;
+	switches["swedish"] = 1;
+	switches["french"] = 1;
+	showData();
+}
+
+function selectSlimCountries() {
+	for (var i=0; i<countries.length; ++i) {
+		switches[countries[i]] = 0;
+	}
+	switches["ethiopian"] = 1;
+	switches["vietnamese"] = 1;
+	switches["indian"] = 1;
+	switches["filipino"] = 1;
+	switches["japanese"] = 1;
+	showData();
+}
+
+function selectShortLifeCountries() {
+	for (var i=0; i<countries.length; ++i) {
+		switches[countries[i]] = 0;
+	}
+	switches["ethiopian"] = 1;
+	switches["indian"] = 1;
+	switches["filipino"] = 1;
+	switches["russian"] = 1;
+	switches["moroccan"] = 1;
+	showData();
+}
+
+</script>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<button id="btn-search" class="ui-button ui-corner-all ui-widget" onclick="selectAllCountries()">ALL</button>
+	<button id="btn-search" class="ui-button ui-corner-all ui-widget" onclick="disselectAllCountries()">NONE</button>
+	<button id="btn-search" class="ui-button ui-corner-all ui-widget" onclick="selectOverweightCountries()">OVERWEIGHT TOP-5</button>
+	<button id="btn-search" class="ui-button ui-corner-all ui-widget" onclick="selectSlimCountries()">SLIM TOP-5</button>
+	<button id="btn-search" class="ui-button ui-corner-all ui-widget" onclick="selectLongLifeCountries()">LONG LIFE TOP-5</button>
+	<button id="btn-search" class="ui-button ui-corner-all ui-widget" onclick="selectShortLifeCountries()">SHORT LIFE TOP-5</button>
+  </body>
+</html>
