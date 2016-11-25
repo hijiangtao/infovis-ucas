@@ -60,7 +60,7 @@ body {
   left: 0;
 }
 
-/* ui-autocomplete ¸ß¶È*/
+/* ui-autocomplete é«˜åº¦*/
 .ui-autocomplete {
     max-height: 200px;
     overflow-y: auto;
@@ -74,7 +74,7 @@ body {
     height: 200px;
 }
 
-/* ui-selectmenu ¸ß¶È*/
+/* ui-selectmenu é«˜åº¦*/
 .ui-selectmenu-menu {
 	max-height: 200px;
 	overflow-y: auto;
@@ -401,7 +401,7 @@ $( function() {
 			}
 			if (availableTags == null) {
 				$.get("data/all_ingredients.txt", function(data) {
-					availableTags = data.split("\r\n").sort();
+					availableTags = data.split("\n").sort();
 					response( $.ui.autocomplete.filter(
 					availableTags, extractLast( request.term ) ) );
 				});
@@ -420,7 +420,7 @@ $( function() {
           terms.pop();
           // add the selected item
           terms.push( ui.item.value );
-		  ingredients = terms.slice(0); // ¿½±´Êı×é£¬¶ø²»ÊÇ´®Ö¸Õë
+		  ingredients = terms.slice(0); // æ‹·è´æ•°ç»„ï¼Œè€Œä¸æ˜¯ä¸²æŒ‡é’ˆ
           // add placeholder to get the comma-and-space at the end
           terms.push( "" );
           this.value = terms.join( ", " );
@@ -488,13 +488,13 @@ $( function() {
 		$( "salty" ).val( $( "#slider-salty-range" ).slider( "values", 0 ) +
 		  " - " + $( "#slider-salty-range" ).slider( "values", 1 ) );
 
-		// ÖØÖÃºóËÑË÷
+		// é‡ç½®åæœç´¢
 		btn_search();
 	}
 
-    // ·µ»ØÃ¿¸ö¹ú¼ÒµÄ·ûºÏÌõ¼şµÄ²ËÆ×ÊıÁ¿£¨Ë³ĞòÓëÈ«¾Ö±äÁ¿countries¹ú¼ÒË³Ğò£©
+    // è¿”å›æ¯ä¸ªå›½å®¶çš„ç¬¦åˆæ¡ä»¶çš„èœè°±æ•°é‡ï¼ˆé¡ºåºä¸å…¨å±€å˜é‡countrieså›½å®¶é¡ºåºï¼‰
     function count(data) {
-		// »ñÈ¡ËÑË÷Ìõ¼ş
+		// è·å–æœç´¢æ¡ä»¶
 		// 1. Basic
         Cooktechnique = document.getElementById("cooking-technique").value;
         Course = (document.getElementById("course")).value;
@@ -516,11 +516,11 @@ $( function() {
         sour = $("#slider-sour-range").slider("values");
         salty = $("#slider-salty-range").slider("values");
 		
-		// Low fat: Ö¬·¾µÍÓÚ10g£»low carb£ºÌ¼Ë®»¯ºÏÎïµÍÓÚ30g£»low calories£ºÈÈÁ¿µÍÓÚ400Ç§¿¨£»low sodium£ºÄÆµÍÓÚ500mg£»high fiber£ºÉÅÊ³ÏËÎ¬¸ßÓÚ6g£»lower sugar£ºÌÇµÍÓÚ10g
+		// Low fat: è„‚è‚ªä½äº10gï¼›low carbï¼šç¢³æ°´åŒ–åˆç‰©ä½äº30gï¼›low caloriesï¼šçƒ­é‡ä½äº400åƒå¡ï¼›low sodiumï¼šé’ ä½äº500mgï¼›high fiberï¼šè†³é£Ÿçº¤ç»´é«˜äº6gï¼›lower sugarï¼šç³–ä½äº10g
 		fat=10.0;
 		carb=30.0;
 		calories=400.0;
-		sodium=0.5; // ÄÆÒÔ¿ËÎªµ¥Î»£¬ÕâÀï¼ì²âãĞÖµÎª500mg¼´0.5g
+		sodium=0.5; // é’ ä»¥å…‹ä¸ºå•ä½ï¼Œè¿™é‡Œæ£€æµ‹é˜ˆå€¼ä¸º500mgå³0.5g
 		fiber=6.0;
 		sugar=10.0;
 
@@ -529,7 +529,7 @@ $( function() {
 			var country = countries[i];
 	        var dataset = data;
             var result = dataset
-				//¹ıÂËÌõ¼ş
+				//è¿‡æ»¤æ¡ä»¶
 				// 1. Basic
 				.filter(function (d) {return d.country == country;})
 				//.filter(function (d) {return d.ingredients.toLowerCase().indexOf(Ingredients) != -1;})
@@ -553,18 +553,18 @@ $( function() {
 				.filter(function (d) {return inRange(parseInt(+d.sour), sour);})
 				.filter(function (d) {return inRange(parseInt(+d.salty), salty);})
 			
-			// ingredientsµ¥¶À´¦Àí
+			// ingredientså•ç‹¬å¤„ç†
 			for (var j=0; j<ingredients.length; ++j){
 				//.filter(function (d) {return d.ingredients.toLowerCase().indexOf(Ingredients) != -1;})
 				result = result.filter(function (d) {return d.ingredients.indexOf(ingredients[j]) != -1;})
 			}
-			// µÃµ½·ûºÏÒªÇóµÄ²ËÆ×ÊıÁ¿
+			// å¾—åˆ°ç¬¦åˆè¦æ±‚çš„èœè°±æ•°é‡
 			counts[i] = result.length;
 		}
 		return counts;
     }
 
-	// ÅĞ¶ÏÒ»¸öÊıvalueÊÇ·ñÔÚÇø¼ärangeÄÚ
+	// åˆ¤æ–­ä¸€ä¸ªæ•°valueæ˜¯å¦åœ¨åŒºé—´rangeå†…
 	function inRange(value, range) {
 		console.assert(range.length == 2);
 		return (value >= range[0] && value <= range[1]);
@@ -577,7 +577,7 @@ $( function() {
 <script src="js/d3.tip.v0.6.3.js"></script>
 <script>
 
-	// ÏÂÃæÕâĞ©¹ú¼ÒÃû³ÆµÄ¶¨ÒåË³ĞòÊÇÒ»ÖÂµÄ£¨ÓÃÓÚ²»Í¬³¡ºÏ£©
+	// ä¸‹é¢è¿™äº›å›½å®¶åç§°çš„å®šä¹‰é¡ºåºæ˜¯ä¸€è‡´çš„ï¼ˆç”¨äºä¸åŒåœºåˆï¼‰
 	var countries = ["american", "brazilian", "chinese", "cuban", "english", "ethiopian", "filipino", "french", "german", "greek",
             "hungarian", "indian", "irish", "italian", "jamaican", "japanese", "korean", "mexican", "moroccan", "peruvian", "portuguese",
             "russian", "spanish", "swedish", "thai", "turkish", "vietnamese"];
@@ -589,9 +589,9 @@ $( function() {
 	var countries_abbr = ["USA", "BRA", "CHN", "CUB", "GBR", "ETH", "PHI", "FRA", "GER", "GRE", "HUN", "IND", "IRL", "ITA", "IAM",
 			"JPN", "KOR", "MEX", "MAR", "PER", "POR", "RUS", "ESP", "SWE", "THA", "TUR", "VIE"];
 
-	// È«¾Ö±äÁ¿³õÊ¼»¯
-	var recipes;  // ¶ÁÈ¡²ËÆ×µÃµ½µÄÈ«¾Ö±äÁ¿
-	var valueHash = {}; // Í³¼ÆÃ¿¸ö¹ú¼Ò·ûºÏÒªÇóµÄ²ËÆ×£¨HashMap£©
+	// å…¨å±€å˜é‡åˆå§‹åŒ–
+	var recipes;  // è¯»å–èœè°±å¾—åˆ°çš„å…¨å±€å˜é‡
+	var valueHash = {}; // ç»Ÿè®¡æ¯ä¸ªå›½å®¶ç¬¦åˆè¦æ±‚çš„èœè°±ï¼ˆHashMapï¼‰
 	for (var i=0; i<countries_in_map.length; ++i) {
 		valueHash[countries_in_map[i]] = 0;
 	}
@@ -616,7 +616,7 @@ $( function() {
 		refreshBarChart(result);
     }
 
-	// ½«27¸ö¹ú¼ÒµÄÍ³¼Æ½á¹ûÏÔÊ¾µ½µØÍ¼Heat MapÉÏ
+	// å°†27ä¸ªå›½å®¶çš„ç»Ÿè®¡ç»“æœæ˜¾ç¤ºåˆ°åœ°å›¾Heat Mapä¸Š
 	function refreshHeatMap(result) {
 		for (var i=0; i<countries_in_map.length; ++i) {
 			valueHash[countries_in_map[i]] = result[i];
@@ -628,12 +628,12 @@ $( function() {
   
 		quantize.domain([d3.min(result), d3.max(result)]);
 
-		// ¸ù¾İËÑË÷½á¹ûĞŞ¸Ä¹ú¼ÒµÄÑÕÉ«
+		// æ ¹æ®æœç´¢ç»“æœä¿®æ”¹å›½å®¶çš„é¢œè‰²
 		var all_countries = svg.select("g").selectAll(".country");
 		all_countries
 			.transition()
 			.duration(1500)
-			.style("fill", function(d) { //¹ú¼ÒµÄÌî³ä
+			.style("fill", function(d) { //å›½å®¶çš„å¡«å……
 				if (valueHash[d.properties.name]) {
 					var c = quantize((valueHash[d.properties.name]));
 					var color = colors[c].getColors();
@@ -645,13 +645,13 @@ $( function() {
 			});
 	}
 
-	// ½«27¸ö¹ú¼ÒµÄÍ³¼Æ½á¹ûÏÔÊ¾µ½µØÍ¼Bar ChartÉÏ
+	// å°†27ä¸ªå›½å®¶çš„ç»Ÿè®¡ç»“æœæ˜¾ç¤ºåˆ°åœ°å›¾Bar Chartä¸Š
 	function refreshBarChart(result) {
 		//x.domain(countries_abbr);
 		//y.domain([0, d3.max(result)]);
 	}
 
-	// Heat Map Init ³õÊ¼»¯
+	// Heat Map Init åˆå§‹åŒ–
 	var config = {"data0":"Country","data1":"Number",
 		"label0":"label 0","label1":"label 1","color0":"#99ccff","color1":"#001b36",
 		"width":960,"height":960}
@@ -696,7 +696,7 @@ $( function() {
 		} : null;
 	}
   
-	// ½«Êı×ÖÓÃK(Ç§)£¬M(°ÙÍò)£¬B(Ê®ÒÚ)¼òµ¥±íÊ¾£ºÕâÊÇÔ­À´exampleÀïÃæµÄ£¬ÎÒÃÇÃ»ÓĞ±ØÒªÓÃËü
+	// å°†æ•°å­—ç”¨K(åƒ)ï¼ŒM(ç™¾ä¸‡)ï¼ŒB(åäº¿)ç®€å•è¡¨ç¤ºï¼šè¿™æ˜¯åŸæ¥exampleé‡Œé¢çš„ï¼Œæˆ‘ä»¬æ²¡æœ‰å¿…è¦ç”¨å®ƒ
 	function valueFormat(d) {
 		if (d > 1000000000) {
 			return Math.round(d / 1000000000 * 10) / 10 + "B";
@@ -778,7 +778,7 @@ $( function() {
 			.attr("d", path)
 			.attr("id", function(d,i) { return d.id; })
 			.attr("title", function(d) { return d.properties.name; })
-			.style("fill", function(d) { //¹ú¼ÒµÄÌî³ä
+			.style("fill", function(d) { //å›½å®¶çš„å¡«å……
 				if (valueHash[d.properties.name]) {
 					var c = quantize((valueHash[d.properties.name]));
 					var color = colors[c].getColors();
@@ -788,7 +788,7 @@ $( function() {
 						return "#ccc";
 					}
 				})
-			.on("mousedown", function(d) { //Êó±êµã»÷½øÈëÏìÓ¦µÄ¹ú¼ÒÒ³Ãæ
+			.on("mousedown", function(d) { //é¼ æ ‡ç‚¹å‡»è¿›å…¥å“åº”çš„å›½å®¶é¡µé¢
 				var idx = countries_in_map.indexOf(d.properties.name);
 				if (idx != -1) {
 					window.location.href="bubble.html?country=" + countries[idx];
