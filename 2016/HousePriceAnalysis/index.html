@@ -1,29 +1,563 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>Examples</title>
-<meta name="description" content="">
-<meta name="keywords" content="">
-<link href="" rel="stylesheet">
-<script src="../../public/js/jquery-3.1.0.js"></script>
-</head>
-<body>
-    <h2 id="pagetitle"></h2>
-    <p>This is the sample content of team <span id="samplecontent"></span></p>
-
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <script type="text/javascript" src="jquery-3.1.1.min.js"></script>  
+   <script type="text/javascript" src="echarts.min.js"></script>
+   <script type="text/javascript" src="./vintage.js"></script>
+   <script type="text/javascript" src="./radar2.js"></script>
+   <body id = "main">
+   <div class="row-fluid" style="height:465px;position:relative;">
+        <div id="left"  style="position: absolute; height: 100%; width: 50%; background-color: transparent; cursor: default;text-align:left">
+        loading...
+        </div>
+        <div id="right" style="position:relative;z-index:1;height:100%;padding-right:0.5em;width:50%;float:right">
+        loading
+        </div>
+    </div>
+    <div class="bottom" style="height:465px;position:relative;">
+        <div id="bottom-left"  style="position: absolute; height: 100%; width: 50%; background-color: transparent; cursor: default;text-align:left">
+        loading...
+        </div>
+        <div id="bottom-right" style="position:relative;z-index:1;height:100%;padding-right:0.5em;width:50%;float:right">
+        loading
+        </div>
+    </div>
     <script type="text/javascript">
-    	let teamstr = window.location.href.split("/"),
-    		strlen = teamstr.length;
+        var dom = document.getElementById("left");
+        var myChart = echarts.init(dom,'vintage');
+        var app = {};
+        option = null;
+        myChart.showLoading();
 
-    	if (teamstr[ strlen-1 ] && teamstr[ strlen-1 ] !== "index" && teamstr[ strlen-1 ] !== "index.html") {
-    		$("#pagetitle").text(teamstr[ strlen-1 ]);
-    		$("#samplecontent").text(teamstr[ strlen-1 ]);
-    	} else {
-    		$("#pagetitle").text(teamstr[ strlen-2 ]);
-    		$("#samplecontent").text(teamstr[ strlen-2 ]);
-    	}
-    </script>
-</body>
+        $.getJSON('./beijingarea.json', function (geoJson) {
+
+            myChart.hideLoading();
+
+            echarts.registerMap('HK', geoJson);
+
+            myChart.setOption(option = {
+                title: {
+                    text: '北京房价地图 （2015-2016）',
+                    },
+                tooltip: {
+                    trigger: 'item',
+                    formatter:function(param){//提示信息格式化
+                        pricedetail(param.data.name);
+                                return "<b>"+param.data.name+"</b><br/>房价："+param.data.value ;
+                            }
+                    //formatter: '{b}<br/>{c} (rmb)'
+                },
+                toolbox: {
+                    show: true,
+                    orient: 'vertical',
+                    left: 'right',
+                    top: 'center',
+                    feature: {
+                        dataView: {readOnly: false},
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                visualMap: {
+                    min: 15000,
+                    max: 110000,
+                    text:['High','Low'],
+                    realtime: false,
+                    calculable: true,
+                    inRange: {
+                        color: ['lightskyblue','yellow', 'orangered']
+                    }
+                },
+                series: [
+                    {
+                        name: '北京房价地图',
+                        type: 'map',
+                        mapType: 'HK', // 自定义扩展图表类型
+                        itemStyle:{
+                            normal:{label:{show:true}},
+                            emphasis:{label:{show:true}}
+                        },
+                        data:[
+                            {name: '东城区', value: 92797},
+                            {name: '西城区', value: 101523},
+                            {name: '海淀区', value: 78014},
+                            {name: '丰台区', value: 53299},
+                            {name: '门头沟区', value: 33901},
+                            {name: '石景山区', value: 50047},
+                            {name: '通州区', value: 44804},
+                            {name: '朝阳区', value: 63634},
+                            {name: '大兴区', value: 41357},
+                            {name: '房山区', value: 28245},
+                            {name: '顺义区', value: 38921},
+                            {name: '昌平区', value: 36513},
+                            {name: '平谷区', value: 15536},
+                            {name: '怀柔区', value: 22805},
+                            {name: '延庆县', value: 17669},
+                            {name: '密云县', value: 21183},
+                        ],
+                        // 自定义名称映射
+                        nameMap: {
+                            
+                        }
+                    }
+                ]
+            });
+        });;
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+        </script>
+        <script type="text/javascript">
+        var dom1 = document.getElementById("right");
+        var myChart1 = echarts.init(dom1,'vintage');
+        var app1 = {};
+        option1 = null;
+        app.title = '堆叠柱状图';
+
+        option1 = {
+                title: {
+                    text: '朝阳区'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                xAxis: [
+                {
+                    type : 'category',
+                    boundaryGap : false,
+                    data : ['1','2','3','4','5','6','7',
+                            '8','9','10','11','12','13','14',
+                            '15','16','17','18','19','20','21',
+                            '22','23','24']
+                }
+                ],
+                yAxis:  [
+                {
+                    type : 'value',
+                    splitLine: {
+                        show: false
+                    }
+                }
+                ],
+                toolbox: {
+                    left: 'center',
+                    feature: {
+                        dataZoom: {
+                            yAxisIndex: 'none'
+                        },
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                dataZoom: [{
+                    startValue: '1'
+                }, {
+                    type: 'inside'
+                }],
+                visualMap: {
+                    top: 10,
+                    right: 10,
+                    pieces: [{
+                        gt: 5000,
+                        lte: 40000,
+                        color: '#096'
+                    }, {
+                        gt: 40000,
+                        lte: 50000,
+                        color: '#ffde33'
+                    }, {
+                        gt: 50000,
+                        lte: 60000,
+                        color: '#ff9933'
+                    }, {
+                        gt: 60000,
+                        lte: 70000,
+                        color: '#cc0033'
+                    }, {
+                        gt: 70000,
+                        lte: 80000,
+                        color: '#660099'
+                    }, {
+                        gt: 80000,
+                        color: '#7e0023'
+                    }],
+                    outOfRange: {
+                        color: '#999'
+                    }
+                },
+                series: {
+                    name: 'House Price',
+                    type: 'line',
+                    data:['54901','56970','56280','56143','55213','56052','57423','58315','59840','60392','60347','61451','61942','62453','62724',  '64486','65521','67960','71694','74641','75109','74902','75920','82155'],
+                    markLine: {
+                        silent: true,
+                        data: [{
+                            yAxis: 20000
+                        }, {
+                            yAxis: 40000
+                        }, {
+                            yAxis: 60000
+                        }, {
+                            yAxis: 80000
+                        }, {
+                            yAxis: 100000
+                        }]
+                    }
+                }
+            };
+        ;
+        if (option1 && typeof option1 === "object") {
+            myChart1.setOption(option1, true);
+        }
+        function pricedetail(district){
+            if (myChart1 && myChart1.dispose) {
+                    myChart1.dispose();
+                }
+                if(district.trim()=='密云县'){
+                    option1.title.text = '密云县';
+                    option1.series.data =[15984,15940,15798,15576,15340,15307,15034,14926,14989,15150,15460,15595,15618,15890,16043,16166,16629,17111,17637,17579,18124,19953,19675,20462];
+                }
+                if(district.trim()=='朝阳区'){
+                    option1.title.text = '朝阳区';
+                    option1.series.data =['54901','56970','56280','56143','55213','56052','57423','58315','59840','60392','60347','61451','61942','62453','62724',   '64486','65521','67960','71694','74641','75109','74902','75920','82155'];
+                }
+                if(district.trim()=='海淀区'){
+                    option1.title.text = '海淀区';
+                    option1.series.data =['39555','38874','38177','38004','38094','38935','40090','41473','42028','42920','43373','44796','45172','45713','46835','46895',  '47339','50409','52039','53436','55786','60256','60032','63503'];
+                }
+                if(district.trim()=='怀柔区'){
+                    option1.title.text = '怀柔区';
+                    option1.series.data =[17092,17040,17364,17641,17946,17575,17669,17794,17404,17556,17547,17480,17787,17866,17702,17905,17751,18196,19021,19561,19567,20575,20610,20906];
+                }
+                if(district.trim()=='平谷区'){
+                    option1.title.text = '平谷区';
+                    option1.series.data =[12474,12358,12598,12507,12692,12359,12571,12655,12451,12500,12354,12297,12375,12520,12677,12886,13137,13654,13635,14015,15706,15303,15493,15600   ];
+                }
+                if(district.trim()=='顺义区'){
+                    option1.title.text = '顺义区';
+                    option1.series.data =[23091,23138,23220,23343,23169,23257,23139,23285,23863,24208,24045,24232,24582,25109,24981,25392,26171,26949,27780,28990,30317,30469,32247,35613];
+                }
+                if(district.trim()=='昌平区'){
+                    option1.title.text = '昌平区';
+                    option1.series.data =[19720,19657,19528,19314,19108,19430,19819,19871,19440,19624,19767,19709,20125,20686,21398,21330,21646,23325,24816,25365,26126,28736,28711,31951];
+                }
+                if(district.trim()=='大兴区'){
+                    option1.title.text = '大兴区';
+                    option1.series.data =[27259,26916,26210,26246,26679,26574,26781,27081,27148,27222,27335,27181,27320,27702,28284,28244,28833,30028,31723,33117,33798,33920,35079,37523];
+                }
+                if(district.trim()=='丰台区'){
+                    option1.title.text = '丰台区';
+                    option1.series.data =[30048,29879,30012,30441,29827,29561,29021,29988,29698,29363,28873,28475,28572,28735,29163,29309,29844,29350,30224,31835,32512,33080,35397,37863];
+                }
+                if(district.trim()=='房山区'){
+                    option1.title.text = '房山区';
+                    option1.series.data =[17057,17042,16810,16766,16822,17069,17029,17130,17277,17209,17173,17364,17424,17646,17930,18081,18176,19255,20097,20644,21131,21561,22218,23245];
+                }
+                if(district.trim()=='西城区'){
+                    option1.title.text = '西城区';
+                    option1.series.data =[72979,73441,73705,74109,74990,75810,76274,77025,78331,78901,79411,80600,81185,82037,83118,83310,83842,84947,84646,88957,91103,125429,127407,127925];
+                }
+                if(district.trim()=='东城区'){
+                    option1.title.text = '东城区';
+                    option1.series.data =[65969,67115,67599,68985,67940,69757,69809,70640,72220,73206,71373,69409,67786,66923,67983,68747,67855,69028,70712,72642,75764,86215,86746,90069];
+                }
+                if(district.trim()=='通州区'){
+                    option1.title.text = '通州区';
+                    option1.series.data =[21524,22026,21705,21697,21397,21443,21995,21749,22199,22605,23238,23731,24163,24692,24810,25278,25702,27925,29573,31149,31564,37451,39471,43414];
+                }
+                if(district.trim()=='石景山区'){
+                    option1.title.text = '石景山区';
+                    option1.series.data =[28908,29087,28543,27906,28013,28058,28616,28611,28465,28466,28455,28828,28642,28951,29150,29498,30234,32086,33257,34485,34216,36317,37120,39352];
+                }
+                if(district.trim()=='门头沟区'){
+                    option1.title.text = '门头沟区';
+                    option1.series.data =[21398,21147,20765,20355,19901,20371,20733,21206,21718,22134,22443,22459,22443,22603,22883,23331,23365,24417,25192,25265,25812,34352,33960,38001];
+                }
+                if(district.trim()=='延庆县'){
+                    option1.title.text = '延庆县';
+                    option1.series.data =[13936,13518,13899,13714,13568,13247,13355,13049,12949,13017,12868,13073,12886,12670,12491,12387,12056,11846,11679,11466,11223,10251,10971,11071];
+                }
+                
+                myChart1 = echarts.init(dom1,'vintage');
+                myChart1.setOption(option1,true);
+        }
+       </script>
+        <script type="text/javascript">
+        var dom2 = document.getElementById("bottom-right");
+        var myChart2 = echarts.init(dom2,'vintage');
+        var app2 = {};
+        option2 = null;
+        app.title = '堆叠柱状图';
+// option2 = {
+//     tooltip : {
+//         trigger: 'axis',
+//         axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+//             type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+//         }
+//     },
+//     legend: {
+//         data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎','百度','谷歌','必应','其他']
+//     },
+//     grid: {
+//         left: '3%',
+//         right: '4%',
+//         bottom: '3%',
+//         containLabel: true
+//     },
+//     xAxis : [
+//         {
+//             type : 'category',
+//             data : ['周一','周二','周三','周四','周五','周六','周日']
+//         }
+//     ],
+//     yAxis : [
+//         {
+//             type : 'value'
+//         }
+//     ],
+//     series : [
+//         {
+//             name:'直接访问',
+//             type:'bar',
+//             data:[320, 332, 301, 334, 390, 330, 320]
+//         },
+//         {
+//             name:'邮件营销',
+//             type:'bar',
+//             stack: '广告',
+//             data:[120, 132, 101, 134, 90, 230, 210]
+//         },
+//         {
+//             name:'联盟广告',
+//             type:'bar',
+//             stack: '广告',
+//             data:[220, 182, 191, 234, 290, 330, 310]
+//         },
+//         {
+//             name:'视频广告',
+//             type:'bar',
+//             stack: '广告',
+//             data:[150, 232, 201, 154, 190, 330, 410]
+//         },
+//         {
+//             name:'搜索引擎',
+//             type:'bar',
+//             data:[862, 1018, 964, 1026, 1679, 1600, 1570],
+//             markLine : {
+//                 lineStyle: {
+//                     normal: {
+//                         type: 'dashed'
+//                     }
+//                 },
+//                 data : [
+//                     [{type : 'min'}, {type : 'max'}]
+//                 ]
+//             }
+//         },
+//         {
+//             name:'百度',
+//             type:'bar',
+//             barWidth : 5,
+//             stack: '搜索引擎',
+//             data:[620, 732, 701, 734, 1090, 1130, 1120]
+//         },
+//         {
+//             name:'谷歌',
+//             type:'bar',
+//             stack: '搜索引擎',
+//             data:[120, 132, 101, 134, 290, 230, 220]
+//         },
+//         {
+//             name:'必应',
+//             type:'bar',
+//             stack: '搜索引擎',
+//             data:[60, 72, 71, 74, 190, 130, 110]
+//         },
+//         {
+//             name:'其他',
+//             type:'bar',
+//             stack: '搜索引擎',
+//             data:[62, 82, 91, 84, 109, 110, 120]
+//         }
+//     ]
+// };
+        option2 = {
+            title : {
+                text: '北京房价趋势图',
+                subtext: 'Source: fang.com'
+            },
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['朝阳','海淀','丰台','东城','西城','石景山','昌平','大兴','通州','','顺义','房山','密云','门头沟','怀柔','延庆','平谷','燕郊','北京周边']
+            },
+            toolbox: {
+                show : true,
+                feature : {
+                    mark : {show: false},
+                    dataView : {show: false, readOnly: false},
+                    magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            calculable : true,
+            xAxis : [
+                {
+                    type : 'category',
+                    boundaryGap : false,
+                    data : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug','Sep','Oct','Nov','Dec']
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'朝阳',
+                    type:'line',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:[40232, 40506, 40551, 40475, 40542,40910,41104,41408,41771,42247,42572,42844]
+                },
+                {
+                    name:'海淀',
+                    type:'line',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:[49494, 49395, 49299,49210,49360,49507,49805,50336,50796,51448,52167,52666]
+                },
+              {
+                    name:'丰台',
+                    type:'line',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:[33479,33230, 33031, 32883,32754,32672,32653,32668,32650,32798,32964,33101]
+                },
+               {
+                    name:'东城',
+                    type:'line',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:[56705,57128, 56906, 57111,57177,57845,58319,59007,59489,60156,60774,61143]
+               },
+              {
+                    name:'西城',
+                    type:'line',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:[60509,60747,60986,61133,61261,61857,62392,63302,64055,65050,65559,66089]
+                },
+               {
+                    name:'石景山',
+                    type:'line',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:[31197,30979,30941,30862,30737,30651,30730,31045,31013,31002,30897,31060]
+                },
+              {
+                    name:'昌平',
+                    type:'line',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:[21412,21390,21149,20956,20793,20732,20677,20699,20765,20953,20907,20980]
+                },
+              {
+                    name:'大兴',
+                    type:'line',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:[23045,22911,22878,22922,23057,22873,22993,23091,23293,23339,23599,23743]
+                },
+              {
+                    name:'通州',
+                    type:'line',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:[21467,21323,21318,21420,21345,21363,21500,21478,21694,21998,22384,22669]
+                },
+                 {
+                    name:'顺义',
+                    type:'line',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:[20551,20548,20614,20539,20483,20426,20482,20580,20685,21249,21458,21792]
+                },
+                {
+                    name:'房山',
+                    type:'line',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:[13414,13360,13264,13156,13142,13042,13006,12992,13036,13038,13009,13085]
+                },
+               {
+                    name:'密云',
+                    type:'line',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:[14910,14993,14993,14893,14845,14767,14784,14820,14895,15006,14988,15036]
+                },
+               {
+                    name:'门头沟',
+                    type:'line',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:[21227,20937,20774,20619,20465,20791,20958,21201,21394,21625,21829,22008]
+                },
+             {
+                    name:'怀柔',
+                    type:'line',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:[17092,17040,17364,17641,17946,17575,17669,17794,17404,17556,17547,17480]
+                },
+              {
+                    name:'延庆',
+                    type:'line',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:[14348,14239,14259,14925,13641,13247,13355,13049,12949,13017,12868,13073]
+                },
+              {
+                    name:'平谷',
+                    type:'line',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:[12474,12358,12598,12507,12692,12359,12571,12655,12451,12500,12354,12297]
+                },
+               {
+                    name:'燕郊',
+                    type:'line',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:[9543,9352,9270,9127,9133,9278,9359,9466,9659,9921,10353,10812]
+                },
+               {
+                    name:'北京周边',
+                    type:'line',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:[8286,8330,8587,8826,9096,6963,6944,6886,6875,6881,6924,7070]
+                }     
+            ]
+        };
+        
+        if (option2 && typeof option2 === "object") {
+            myChart2.setOption(option2, true);
+        }
+        </script>
+        <script type="text/javascript">
+        var dom3 = document.getElementById("bottom-left");
+        var myChart3 = echarts.init(dom3,'vintage');
+        
+        if (optionradar && typeof optionradar === "object") {
+            myChart3.setOption(optionradar, true);
+        }
+        </script>
+   </body>
 </html>
